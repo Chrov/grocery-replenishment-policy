@@ -1,0 +1,35 @@
+# =====================================================================
+# dbt connection profile
+# =====================================================================
+# This project runs LOCALLY on DuckDB (zero cost, zero cloud setup).
+# DuckDB reads the CSVs in ../data/raw directly and executes the star schema.
+#
+# To migrate to real BigQuery (full Kaggle dataset), replace the `favorita:`
+# block with the BigQuery profile commented below and adjust the functions
+# flagged in the staging models (see README, "Migrate to BigQuery").
+# =====================================================================
+
+favorita:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      # Local database; created when you run `dbt run`
+      path: "../data/favorita.duckdb"
+      threads: 4
+
+# ---------------------------------------------------------------------
+# BigQuery profile (reference for when you use the real dataset)
+# ---------------------------------------------------------------------
+# favorita:
+#   target: prod
+#   outputs:
+#     prod:
+#       type: bigquery
+#       method: service-account
+#       project: your-gcp-project
+#       dataset: favorita
+#       keyfile: /path/to/your/service-account.json
+#       location: US
+#       threads: 4
+#       priority: interactive

@@ -1,0 +1,77 @@
+version: 2
+
+models:
+  - name: fct_sales
+    description: >
+      Central fact table. Store-item-day grain. Joins sales with all dimensions.
+      It is the basis for EDA and for feature engineering in Python.
+    columns:
+      - name: id
+        description: Unique row identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: date
+        data_tests: [not_null]
+      - name: store_nbr
+        description: FK to dim_store.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_store')
+                field: store_nbr
+      - name: item_nbr
+        description: FK to dim_item.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_item')
+                field: item_nbr
+      - name: unit_sales_clipped
+        description: Non-negative sales for modeling. Never negative.
+        data_tests:
+          - not_null
+      - name: perishable
+        data_tests:
+          - accepted_values:
+              values: [0, 1]
+
+  - name: dim_store
+    description: Store dimension. One row per store_nbr.
+    columns:
+      - name: store_nbr
+        data_tests: [unique, not_null]
+
+  - name: dim_item
+    description: Item dimension. One row per item_nbr.
+    columns:
+      - name: item_nbr
+        data_tests: [unique, not_null]
+
+  - name: dim_date
+    description: Calendar dimension with payday, holidays and proximity to holiday.
+    columns:
+      - name: date
+        data_tests: [unique, not_null]
+      - name: is_payday
+        data_tests:
+          - accepted_values:
+              values: [0, 1]
+
+  - name: dim_oil
+    description: Oil dimension with level, daily change and 7d moving average.
+    columns:
+      - name: date
+        data_tests: [unique, not_null]
+
+  - name: mart_item_abc
+    description: ABC classification of items by cumulative contribution to sales.
+    columns:
+      - name: item_nbr
+        data_tests: [unique, not_null]
+      - name: abc_class
+        data_tests:
+          - accepted_values:
+              values: ['A', 'B', 'C']

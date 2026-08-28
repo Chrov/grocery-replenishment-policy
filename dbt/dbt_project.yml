@@ -1,0 +1,35 @@
+name: 'favorita'
+version: '1.0.0'
+config-version: 2
+
+# Profile defined in profiles.yml (uses DuckDB locally; see README for BigQuery)
+profile: 'favorita'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# --- Materialization config per layer -----------------------------------
+# staging  -> views (lightweight, just clean/type)
+# marts    -> tables (the star schema, queried repeatedly)
+models:
+  favorita:
+    staging:
+      +materialized: view
+      +schema: staging
+    marts:
+      +materialized: table
+      +schema: marts
+
+# Reusable variables (event dates, ABC thresholds)
+vars:
+  earthquake_date: '2016-04-16'
+  abc_a_threshold: 0.80
+  abc_b_threshold: 0.95

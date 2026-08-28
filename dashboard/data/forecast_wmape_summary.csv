@@ -1,0 +1,5 @@
+﻿model,wmape,vs_baseline_pct
+LightGBM,0.159,64.6
+SARIMAX,0.243,45.9
+Prophet,0.274,39.0
+Seasonal naive,0.449,0.0

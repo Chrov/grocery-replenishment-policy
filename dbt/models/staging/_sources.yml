@@ -1,0 +1,62 @@
+version: 2
+
+sources:
+  - name: raw
+    description: >
+      Raw Corporación Favorita tables (CSVs in data/raw). Locally they are read
+      directly with DuckDB via read_csv_auto. In BigQuery these would be the
+      raw_* tables loaded from GCS.
+    # In DuckDB we use an external location; the logical name is 'raw'
+    meta:
+      external_location: "read_csv_auto('../data/raw/{name}.csv', header=true, sample_size=-1)"
+    tables:
+      - name: train
+        description: Daily sales per store-item. Item-store-day grain (only rows with sales != 0).
+        columns:
+          - name: id
+            description: Unique row identifier.
+          - name: date
+            description: Sale date.
+          - name: store_nbr
+            description: Store number.
+          - name: item_nbr
+            description: Item number.
+          - name: unit_sales
+            description: Units sold. Negative = return. Can be float (kg).
+          - name: onpromotion
+            description: Whether the item was on promotion. ~16% NaN (like the real one).
+      - name: stores
+        description: Store metadata.
+        columns:
+          - name: store_nbr
+          - name: city
+          - name: state
+          - name: type
+          - name: cluster
+      - name: items
+        description: Item metadata. `perishable` is key for the supply-chain angle.
+        columns:
+          - name: item_nbr
+          - name: family
+          - name: class
+          - name: perishable
+      - name: transactions
+        description: Transaction count per store-day (traffic proxy).
+        columns:
+          - name: date
+          - name: store_nbr
+          - name: transactions
+      - name: oil
+        description: Daily WTI oil price. Has gaps (NaN) like the real one.
+        columns:
+          - name: date
+          - name: dcoilwtico
+      - name: holidays_events
+        description: National/local holidays and special events in Ecuador.
+        columns:
+          - name: date
+          - name: type
+          - name: locale
+          - name: locale_name
+          - name: description
+          - name: transferred

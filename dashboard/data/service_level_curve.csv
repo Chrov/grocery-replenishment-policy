@@ -1,0 +1,5 @@
+﻿service_level,safety_stock,holding_cost,expected_lost_sales,total_cost
+0.9,35.6,17.82,18.8,36.62
+0.95,45.7,22.87,9.4,32.27
+0.98,57.1,28.55,3.76,32.31
+0.99,64.7,32.34,1.88,34.22

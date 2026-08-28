@@ -1,0 +1,22 @@
+# Data (regenerable with generate_synthetic_favorita.py; the real one is separate)
+data/raw/*.csv
+data/*.duckdb
+
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+dbt/.user.yml
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Notebooks: heavy outputs (optional; remove if you want to version outputs)
+# *.ipynb
+
+# OS
+.DS_Store
