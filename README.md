@@ -37,3 +37,8 @@ Synthetic data, seed 42. 110,624 source records, 60 products, six stores and 360
 La mejora predictiva no es ahorro de inventario. WMAPE puede superar 100% cuando la demanda es baja e intermitente. Los ceros se reconstruyen solo por el contrato del generador; retornos negativos se tratan como cero para este objetivo. No extrapolar esta regla a datos reales.
 
 Forecast improvement is not inventory savings. WMAPE can exceed 100% for low, intermittent demand. Zeros are reconstructed only under the generator contract; negative returns become zero for this target. Do not apply this rule to real data without validation.
+
+
+[Open reviewed dashboard / Abrir dashboard revisado en Tableau Public](https://public.tableau.com/app/profile/camilo.vergara3198/viz/Replenishment_17889686809270/SyntheticreplenishmentReposicionsimulada)
+
+Public access verified; four reviewed charts, synthetic 60-product × 6-store scope.
