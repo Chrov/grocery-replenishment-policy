@@ -1,0 +1,130 @@
+[
+  {
+    "node": "model.favorita.stg_items",
+    "status": "success"
+  },
+  {
+    "node": "model.favorita.stg_holidays",
+    "status": "success"
+  },
+  {
+    "node": "model.favorita.stg_oil",
+    "status": "success"
+  },
+  {
+    "node": "model.favorita.stg_stores",
+    "status": "success"
+  },
+  {
+    "node": "model.favorita.stg_sales",
+    "status": "success"
+  },
+  {
+    "node": "model.favorita.dim_item",
+    "status": "success"
+  },
+  {
+    "node": "model.favorita.dim_oil",
+    "status": "success"
+  },
+  {
+    "node": "model.favorita.dim_store",
+    "status": "success"
+  },
+  {
+    "node": "test.favorita.not_null_dim_item_item_nbr.f4a5df8df7",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.unique_dim_item_item_nbr.3258f5ff78",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.not_null_dim_oil_date.366ddb94bb",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.unique_dim_oil_date.9cd993b0be",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.not_null_dim_store_store_nbr.0b2ec03df6",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.unique_dim_store_store_nbr.8ee1224dec",
+    "status": "pass"
+  },
+  {
+    "node": "model.favorita.dim_date",
+    "status": "success"
+  },
+  {
+    "node": "test.favorita.unique_dim_date_date.dd069a8d31",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.not_null_dim_date_date.78f11e7735",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.accepted_values_dim_date_is_payday__0__1.db4d614af6",
+    "status": "pass"
+  },
+  {
+    "node": "model.favorita.fct_sales",
+    "status": "success"
+  },
+  {
+    "node": "test.favorita.not_null_fct_sales_date.f1dc6920bd",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.accepted_values_fct_sales_perishable__0__1.46a0a9dfa5",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.not_null_fct_sales_item_nbr.66ceeea4fd",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.not_null_fct_sales_id.61651e8f73",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.not_null_fct_sales_store_nbr.826938a8b3",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.relationships_fct_sales_item_nbr__item_nbr__ref_dim_item_.a8548162fc",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.not_null_fct_sales_unit_sales_clipped.dc9dd013a4",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.relationships_fct_sales_store_nbr__store_nbr__ref_dim_store_.ce648cd7c4",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.unique_fct_sales_id.17fcbcc6cb",
+    "status": "pass"
+  },
+  {
+    "node": "model.favorita.mart_item_abc",
+    "status": "success"
+  },
+  {
+    "node": "test.favorita.accepted_values_mart_item_abc_abc_class__A__B__C.6373957f02",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.not_null_mart_item_abc_item_nbr.623d561a50",
+    "status": "pass"
+  },
+  {
+    "node": "test.favorita.unique_mart_item_abc_item_nbr.de6f964273",
+    "status": "pass"
+  }
+]

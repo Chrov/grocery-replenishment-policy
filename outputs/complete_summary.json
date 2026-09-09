@@ -1,0 +1,64 @@
+{
+  "source": "Synthetic generator seed 42",
+  "raw_rows": 110624,
+  "calendar_rows": 213480,
+  "stores": 6,
+  "items": 60,
+  "series": 360,
+  "selected_model": "lightgbm_recursive",
+  "selection_metric": "mean SKU-store WMAPE across four validation folds; no mixed-unit totals",
+  "holdout": [
+    {
+      "fold": 5,
+      "split": "holdout",
+      "origin": "2016-07-31",
+      "model": "seasonal_naive",
+      "macro_sku_wmape": 1.4275947459534952,
+      "beverages_store1_wmape": 0.44892703862660943,
+      "scored_pairs": 360
+    },
+    {
+      "fold": 5,
+      "split": "holdout",
+      "origin": "2016-07-31",
+      "model": "weekday_mean_8w",
+      "macro_sku_wmape": 1.1901479774338217,
+      "beverages_store1_wmape": 0.3278969957081545,
+      "scored_pairs": 360
+    },
+    {
+      "fold": 5,
+      "split": "holdout",
+      "origin": "2016-07-31",
+      "model": "lightgbm_recursive",
+      "macro_sku_wmape": 1.1556213890113667,
+      "beverages_store1_wmape": 0.30277823322829,
+      "scored_pairs": 360
+    }
+  ],
+  "raw_sha256": "db9f876028405ab23278643d0e02f35f34f1bf52c453162275621d7527d47c91",
+  "returns_rows": 553,
+  "zero_rule": "Omitted rows are zero only under this synthetic generator contract",
+  "model_config": {
+    "boosting_type": "gbdt",
+    "class_weight": null,
+    "colsample_bytree": 1.0,
+    "importance_type": "split",
+    "learning_rate": 0.05,
+    "max_depth": -1,
+    "min_child_samples": 40,
+    "min_child_weight": 0.001,
+    "min_split_gain": 0.0,
+    "n_estimators": 150,
+    "n_jobs": 4,
+    "num_leaves": 15,
+    "objective": "tweedie",
+    "random_state": 42,
+    "reg_alpha": 0.0,
+    "reg_lambda": 0.0,
+    "subsample": 1.0,
+    "subsample_for_bin": 200000,
+    "subsample_freq": 0,
+    "verbosity": -1
+  }
+}

@@ -1,34 +1,39 @@
-# Grocery replenishment policy
+# Pronóstico para un piloto de reposición / Forecasting for a replenishment pilot
 
-**ES:** Análisis de demanda y diseño de un piloto de reposición con datos sintéticos compatibles con el esquema Favorita. SQL/dbt, Python, validación temporal e insumos para Tableau.
+**Camilo Vergara · Data Analyst · Caso de portafolio / Portfolio case**
 
-**EN:** Demand analysis and replenishment pilot design using synthetic Favorita-schema data. SQL/dbt, Python, temporal validation and Tableau extracts.
+LightGBM recursivo fue seleccionado mediante validación temporal. Usarlo en un piloto en sombra: el desempeño agregado mejora, pero la demanda intermitente mantiene un error alto por SKU y tienda.
 
-## Resultado revisado / Reviewed result
+Recursive LightGBM was selected through temporal validation. Use it in a shadow pilot: aggregate performance improves, but intermittent demand leaves substantial SKU-store error.
 
-Cuatro cortes de validación seleccionan la media por día de semana de ocho semanas. Holdout de 15 días: **WMAPE 32,79% vs. 44,89%** del baseline estacional, en BEVERAGES/tienda 1. Es evidencia predictiva agregada en simulación, sin ahorro operativo demostrado.
+## Alcance / Scope
 
-Four validation origins select the eight-week weekday mean. Final 15-day holdout: **32.79% vs 44.89% WMAPE**, BEVERAGES/store 1. Aggregate synthetic forecast evidence; no demonstrated operating savings.
+Datos sintéticos con semilla 42. 110.624 registros originales, 60 productos, seis tiendas y 360 series. El calendario completo contiene 213.480 filas entre enero de 2015 y agosto de 2016.
 
-El resultado anterior de LightGBM se retiró por fuga temporal. La política anterior de 13 artículos queda como ilustración no validada. Consulte [la revisión de decisiones](DECISION_REVIEW.md) para metodología, límites y próximos pasos.
+Synthetic data, seed 42. 110,624 source records, 60 products, six stores and 360 series. The completed calendar contains 213,480 rows from January 2015 to August 2016.
 
-## Reproducir / Reproduce
+| Indicador / Metric | Resultado / Result |
+|---|---:|
+| Bebidas tienda 1 / Beverages store 1 | WMAPE 30.28% |
+| Baseline estacional / Seasonal naive | WMAPE 44.89% |
+| Media por SKU tienda / SKU-store mean | WMAPE 115.56% |
+| Validación / Validation | 4 folds + final 15 days |
 
-```bash
-python src/review_backtest.py
-python -m unittest discover -s tests
-```
+![Forecasting for a replenishment pilot](reports/forecast_comparison.png)
 
-La comparación revisada utiliza `dashboard/data/demand_daily.csv` y no requiere servicios pagos. Los modelos avanzados requieren reconstruir la base siguiendo [dbt/README.md](dbt/README.md), y ejecutar los notebooks en orden. El notebook de LightGBM ya usa predicción recursiva y no conserva métricas antiguas.
+## Revisar el caso / Review the case
 
-The reviewed benchmark runs locally from the supplied daily extract. Advanced models require rebuilding the source database using the dbt instructions and rerunning notebooks. The revised LightGBM notebook uses recursive predictions and has no stale results.
+- [Informe ejecutivo bilingüe / Bilingual executive report](reports/Executive_Report.pdf)
+- [Decisión, método y límites / Decision, method and limitations](DECISION_REVIEW.md)
+- [Diccionario / Data dictionary](docs/DATA_DICTIONARY.md)
+- [Reproducción / Reproduction](REPRODUCIBILITY.md)
+- [Verificación / Verification](docs/VALIDATION.md)
+- [Tableau: libro empaquetado con extractos / packaged workbook](dashboard/reviewed/Replenishment.twbx)
+- [Resultados por corte / Fold results](outputs/complete_backtest.csv)
+- [Resultados por SKU / SKU-level evidence](outputs/complete_sku_errors.csv)
 
-## Archivos / Files
+## Interpretación / Interpretation
 
-- `src/forecasting_pipeline.py`: funciones de pronóstico y políticas ilustrativas.
-- `outputs/review_backtest.csv`: métricas por corte temporal.
-- `outputs/review_predictions.csv`: predicciones y observaciones.
-- `dbt/`: modelo de datos, validaciones y guía local.
-- `notebooks/`: EDA, modelos y políticas.
-- `dashboard/data/`: extractos para BI; respetar `review_status` en resultados heredados.
-- `DECISION_REVIEW.md`: decisión, límites y diseño del piloto, ES/EN.
+La mejora predictiva no es ahorro de inventario. WMAPE puede superar 100% cuando la demanda es baja e intermitente. Los ceros se reconstruyen solo por el contrato del generador; retornos negativos se tratan como cero para este objetivo. No extrapolar esta regla a datos reales.
+
+Forecast improvement is not inventory savings. WMAPE can exceed 100% for low, intermittent demand. Zeros are reconstructed only under the generator contract; negative returns become zero for this target. Do not apply this rule to real data without validation.
