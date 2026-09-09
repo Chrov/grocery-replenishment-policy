@@ -1,5 +1,5 @@
-﻿model,wmape,vs_baseline_pct
-LightGBM,0.159,64.6
-SARIMAX,0.243,45.9
-Prophet,0.274,39.0
-Seasonal naive,0.449,0.0
+model,wmape,vs_baseline_pct,review_status
+LightGBM,0.159,64.6,legacy_unvalidated_do_not_operationalize
+SARIMAX,0.243,45.9,legacy_unvalidated_do_not_operationalize
+Prophet,0.274,39.0,legacy_unvalidated_do_not_operationalize
+Seasonal naive,0.449,0.0,legacy_unvalidated_do_not_operationalize

@@ -1,0 +1,11 @@
+fold,split,origin,model,n,wmape
+1,validation,2016-06-01,seasonal_naive,15,0.4186206896551724
+1,validation,2016-06-01,weekday_mean_8w,15,0.29758620689655174
+2,validation,2016-06-16,seasonal_naive,15,0.3140376266280753
+2,validation,2016-06-16,weekday_mean_8w,15,0.3056259044862518
+3,validation,2016-07-01,seasonal_naive,15,0.42990654205607476
+3,validation,2016-07-01,weekday_mean_8w,15,0.33703271028037385
+4,validation,2016-07-16,seasonal_naive,15,0.4358772619984264
+4,validation,2016-07-16,weekday_mean_8w,15,0.2701612903225806
+5,holdout,2016-07-31,seasonal_naive,15,0.44892703862660943
+5,holdout,2016-07-31,weekday_mean_8w,15,0.3278969957081545

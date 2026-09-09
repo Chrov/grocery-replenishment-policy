@@ -59,7 +59,12 @@ def build_features(df: pd.DataFrame,
     IMPORTANT: compute lags/rolling PER group (store-item) and always with
     shift() so no future information leaks in.
     """
-    df = df.sort_values(list(group_cols) + ["date"]).copy()
+    df = df.sort_values(list(group_cols) + ["date"]).reset_index(drop=True).copy()
+    if df.duplicated(list(group_cols) + ["date"]).any():
+        raise ValueError("Duplicate series-date keys")
+    gaps = df.groupby(list(group_cols))["date"].diff().dropna()
+    if not gaps.eq(pd.Timedelta(days=1)).all():
+        raise ValueError("Lags require a complete daily calendar per series; do not silently treat missing days as zero")
     g = df.groupby(list(group_cols))[target]
 
     # Lags
@@ -68,15 +73,8 @@ def build_features(df: pd.DataFrame,
 
     # Rolling stats (over the already-shifted value -> no leakage)
     for window in (7, 28):
-        shifted = g.shift(1)
-        df[f"roll_mean_{window}"] = (
-            shifted.groupby([df[c] for c in group_cols])
-            .rolling(window, min_periods=1).mean().reset_index(level=0, drop=True)
-        )
-        df[f"roll_std_{window}"] = (
-            shifted.groupby([df[c] for c in group_cols])
-            .rolling(window, min_periods=1).std().reset_index(level=0, drop=True)
-        )
+        df[f"roll_mean_{window}"] = g.transform(lambda s: s.shift(1).rolling(window, min_periods=1).mean())
+        df[f"roll_std_{window}"] = g.transform(lambda s: s.shift(1).rolling(window, min_periods=1).std())
 
     # Calendar features (dow, day_of_month, month, is_payday, is_holiday,
     # oil_price, onpromotion) already come from the BigQuery query.
@@ -208,6 +206,31 @@ def fit_predict_lightgbm(train: pd.DataFrame, valid: pd.DataFrame, cfg: Config,
     valid = valid.copy()
     valid["pred"] = np.clip(model.predict(valid[features]), 0, None)
     return valid, model
+
+
+def recursive_predictions(model, history, future, features, group_cols=("item_nbr",), target="y"):
+    """Fixed-origin prediction: future targets are discarded, never used as lags.
+
+    Future exogenous fields must be known at the origin. Do not pass realized
+    oil prices or unplanned promotions. A complete daily panel is required.
+    """
+    history = history.copy()
+    future = future.copy()
+    if history.date.max() >= future.date.min():
+        raise ValueError("History and future must be strictly separated")
+    future[target] = np.nan
+    predictions = []
+    for date in sorted(future.date.unique()):
+        day = future[future.date == date].copy()
+        panel = build_features(pd.concat([history, day], ignore_index=True), group_cols, target)
+        day = panel[panel.date == date].copy()
+        if day[features].isna().any().any():
+            raise ValueError("Missing forecast features; provide sufficient history and known-at-origin inputs")
+        day["pred"] = np.clip(model.predict(day[features]), 0, None)
+        predictions.append(day)
+        day[target] = day["pred"]
+        history = pd.concat([history, day], ignore_index=True)
+    return pd.concat(predictions, ignore_index=True)
 
 
 # =====================================================================
