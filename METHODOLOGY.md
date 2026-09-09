@@ -1,3 +1,5 @@
+> Reviewed 2026-09-08: legacy advanced-model metrics and derived stock policies are not validated fixed-origin results. See [DECISION_REVIEW.md](DECISION_REVIEW.md) and outputs/review_backtest.csv for the completed benchmark.
+
 # Methodology
 
 The [README](README.md) reports what the project found. This document covers how each piece was built, why each decision was made over the alternatives, and where the reasoning is weaker than the headline numbers suggest.
